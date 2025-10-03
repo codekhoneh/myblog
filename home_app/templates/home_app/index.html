@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load render_partial %}
+{% load static %}
+
+{% block tite %}
+ Home Page 
+{% endblock %}
+{% block content %}
+    <!-- Page Content -->
+    <!-- Banner Starts Here -->
+    <div class="main-banner header-text">
+      <div class="container-fluid">
+        <div class="owl-banner owl-carousel">
+          {% for i in myartikle %}
+          <div class="item">
+            <img src='{{i.image.url}}' alt="{{i.title}}">
+            <div class="item-content">
+              <div class="main-content">
+                <div class="meta-category">
+                  {% for c in i.catg.all %}
+                    <span>{{c.title}}<br></span>
+                  {% endfor %}
+                </div>
+                <a class="nav-link" href="{{i.get_absolute_url}}">{{i.title}}</a>
+                <a href="post-details.html"><h4>{{i.body}}</h4></a>
+                <ul class="post-info">
+                  <li><a href="#">{{i.author.username}}</a></li>
+                  <li><a href="#">{{i.created}}</a></li>
+                  <li><a href="#">12 Comments</a></li>
+                </ul>
+              </div>
+            </div>
+          
+          </div>
+          {% endfor %}
+
+          
+        </div>
+      </div>
+    </div>
+    <!-- Banner Ends Here -->
+
+    <section class="call-to-action">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="main-content">
+              <div class="row">
+                <div class="col-lg-8">
+                  <span>Stand Blog HTML5 Template</span>
+                  <h4>Creative HTML Template For Bloggers!</h4>
+                </div>
+                <div class="col-lg-4">
+                  <div class="main-button">
+                    <a rel="nofollow" href='{% static "https://templatemo.com/tm-551-stand-blog" %}' target="_parent">Download Now!</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="blog-posts">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="all-blog-posts">
+              <div class="row">
+                {% for r in recent_art %}
+                <div class="col-lg-12">
+                  <div class="blog-post">
+                    <div class="blog-thumb">
+                      <img src='{{r.image.url}}' alt="" style="width: 300px;height: 300px;border-radius: 20%;">
+                    </div>
+                    <div class="down-content">
+                      {% for c in r.catg.all %}
+                       <span>{{c.title}}<br></span>
+                      {% endfor %}
+                      <a href="post-details.html"><h4>{{r.title}}</h4></a>
+                      <ul class="post-info">
+                        <li><a href="#">{{r.author.username}}</a></li>
+                        <li><a href="#">{{r.created}}</a></li>
+                        <li><a href="#">48 Comments</a></li>
+                      </ul>
+                      <p style="direction: ltr;">{{r.body}}</p>
+                      <div class="post-options">
+                        <div class="row">
+                          <div class="col-6">
+                            <ul class="post-tags">
+                              <li><i class="fa fa-tags"></i></li>
+                              <li><a href="#">HTML CSS</a>,</li>
+                              <li><a href="#">Photoshop</a></li>
+                            </ul>
+                          </div>
+                          <div class="col-6">
+                            <ul class="post-share">
+                              <li><i class="fa fa-share-alt"></i></li>
+                              <li><a href="#">Facebook</a>,</li>
+                              <li><a href="#">Twitter</a></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+                <div class="col-lg-12">
+                  <div class="main-button">
+                    <a href="{% url 'blog:articles_list' %}" style="border-radius: 20%;">View All Posts</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% render_partial 'home:sidebar_partial' %}
+        </div>
+      </div>
+    </section>
+{% endblock %}
+    
