@@ -25,4 +25,9 @@ def category_detail(request,pk=None):
     arti=categor.artikle_set.all()
     return render(request,'blog_app/all_artikle_list.html',{'articli':arti})
 
+def search (request):
+    q=request.GET.get('q')
+    articl=artikle.objects.filter(slug__icontains=q)
+    return render(request, 'blog_app/all_artikle_list.html', {'articli': articl})
+
 # Create your views here.
