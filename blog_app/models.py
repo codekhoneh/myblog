@@ -17,7 +17,7 @@ class artikle(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     catg = models.ManyToManyField(category)
-    slug = models.SlugField(null=True,unique=True,blank=True)
+    slug = models.SlugField(null=True,blank=True)
     views = models.PositiveIntegerField(default=0)
     def save(self, force_insert = False, force_update = False, using = None, update_fields = None):
         self.slug = slugify(self.title)

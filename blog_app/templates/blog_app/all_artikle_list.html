@@ -91,17 +91,17 @@
                   {% if articli.has_other_pages %}
                     <ul class="page-numbers">
                       {% if articli.has_previous %}
-                        <li><a href="?page={{articli.previous_page_number}}"><i class="fa fa-angle-double-left"></i></a></li>
+                        <li><a href="?page={{articli.previous_page_number}}{% if request.GET.q %}&q={{request.GET.q}}{% endif %}"><i class="fa fa-angle-double-left"></i></a></li>
                       {% endif %}
                       {% for p in articli.paginator.page_range %}
                         {% if articli.number == p %}
-                          <li class="active"><a href="?page={{ p }}">{{p}}</a></li>
+                          <li class="active"><a href="?page={{ p }} {% if request.GET.q %}&q={{request.GET.q}}{% endif %}">{{p}}</a></li>
                         {% else %}
-                          <li><a href="?page={{ p }}">{{p}}</a></li>
+                          <li><a href="?page={{ p }} {% if request.GET.q %}&q={{request.GET.q}}{% endif %}">{{p}}</a></li>
                         {% endif %}
                       {% endfor %}
                       {% if articli.has_next %}
-                        <li><a href="?page={{articli.next_page_number}}"><i class="fa fa-angle-double-right"></i></a></li>
+                        <li><a href="?page={{articli.next_page_number}}{% if request.GET.q %}&q={{request.GET.q}}{% endif %}"><i class="fa fa-angle-double-right"></i></a></li>
                       {% endif %}
                     </ul>
                   {% endif %}
