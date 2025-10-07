@@ -17,12 +17,18 @@ def allarticle_list(request):
     article = artikle.objects.all()
     footer1 = footer.objects.last()
     page_number = request.GET.get('page')
-    paginatori = Paginator(article,2)
+    paginatori = Paginator(article,1)
     object_list = paginatori.get_page(page_number)
     return render(request,'blog_app/all_artikle_list.html',{'articli':object_list , 'footers' : footer1})
 def category_detail(request,pk=None):
     categor=get_object_or_404(category,id=pk)
     arti=categor.artikle_set.all()
     return render(request,'blog_app/all_artikle_list.html',{'articli':arti})
-
+def search(request):
+    q = request.GET.get('q')
+    articl = artikle.objects.filter(slug__icontains = q)
+    page_number = request.GET.get('page')
+    pagin = Paginator(articl,1)
+    object_list=pagin.get_page(page_number)
+    return render(request,'blog_app/all_artikle_list.html',{'articli':object_list})
 # Create your views here.
