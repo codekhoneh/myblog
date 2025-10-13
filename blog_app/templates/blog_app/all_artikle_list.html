@@ -101,7 +101,8 @@
                   <li class="list-inline-item"><i class="fa fa-user"></i> {{ article.author.username }}</li>
                   <li class="list-inline-item"><i class="fa fa-calendar"></i> {{ article.created|date:"Y-m-d" }}</li>
                 </ul>
-
+                <p class="card-text">{{ article.body|truncatewords:30 }}</p>
+                <a href="{{ article.get_absolute_url }}" class="btn btn-primary btn-sm">ادامه مطلب</a>
                
               </div>
             </div>
