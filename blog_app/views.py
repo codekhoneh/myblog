@@ -73,12 +73,35 @@ def allarticle_list(request):
     page_number = request.GET.get('page')
     paginatori = Paginator(article,2)
     object_list = paginatori.get_page(page_number)
-    return render(request,'blog_app/all_artikle_list.html',{'articli':object_list , 'footers' : footer1})
+    
+    # recent articles for sidebar and categories
+    recent_art = artikle.objects.order_by('-created')[:5]
+    cati = category.objects.all()
+    # send page_obj to template (template expects page_obj)
+    return render(request,'blog_app/all_artikle_list.html',{
+        'page_obj': object_list,
+        'footers' : footer1,
+        'recent_art': recent_art,
+        'cati': cati,
+        'query': ''
+    })
 def category_detail(request,pk=None):
     categor=get_object_or_404(category,id=pk)
     arti=categor.artikle_set.all()
-    return render(request,'blog_app/all_artikle_list.html',{'articli':arti})
-
+# paginate category articles as well
+    page_number = request.GET.get('page')
+    paginator = Paginator(arti, 2)
+    object_list = paginator.get_page(page_number)
+    footer1 = footer.objects.last()
+    recent_art = artikle.objects.order_by('-created')[:5]
+    cati = category.objects.all()
+    return render(request,'blog_app/all_artikle_list.html',{
+        'page_obj': object_list,
+        'footers': footer1,
+        'recent_art': recent_art,
+        'cati': cati,
+        'query': ''
+    })
 # def search (request):
 #     q=request.GET.get('q')
 #     articl=artikle.objects.filter(slug__icontains=q)
