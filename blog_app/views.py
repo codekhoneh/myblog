@@ -2,6 +2,11 @@ from django.shortcuts import render,get_object_or_404
 from django.core.paginator import Paginator
 from blog_app.models import artikle,category,Comment
 from contactus_app.models import footer
+from .forms import ContactUsForm
+from django.shortcuts import redirect
+from django.contrib import messages
+from .models import ContactMessage  # مطمئن شوید این مدل را ایمپورت کرده‌اید
+
 
 def post_detail(request,slug):
     arti = get_object_or_404(artikle,slug=slug)
@@ -32,3 +37,28 @@ def search(request):
     object_list=pagin.get_page(page_number)
     return render(request,'blog_app/all_artikle_list.html',{'articli':object_list})
 # Create your views here.
+
+
+
+
+
+
+
+
+
+def contactus(request):
+    if request.method == 'POST':
+        form = ContactUsForm(request.POST)
+        if form.is_valid():
+            form.save()  # ذخیره مستقیم در مدل
+
+            messages.success(request, 'پیام شما با موفقیت ارسال شد!')
+            return redirect('blog:contact_us')
+    else:
+        form = ContactUsForm()
+
+    return render(request, 'blog_app/contact_us.html', {'myform': form})
+
+
+
+

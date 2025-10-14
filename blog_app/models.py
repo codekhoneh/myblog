@@ -39,3 +39,15 @@ class Comment(models.Model):
     def __str__(self):
         return self.body[:50]
 # Create your models here.
+# models.py
+from django.db import models
+
+class ContactMessage(models.Model):
+    name = models.CharField(max_length=100, blank=True)  # اگر فرم نام دارد
+    email = models.EmailField(blank=True)                # اگر فرم ایمیل دارد
+    text = models.TextField()                            # متن پیام
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"پیام از {self.name or 'ناشناس'} در {self.created_at.strftime('%Y-%m-%d')}"
+
