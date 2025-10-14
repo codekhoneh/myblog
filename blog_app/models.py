@@ -46,7 +46,13 @@ class ContactMessage(models.Model):
     name = models.CharField(max_length=100, blank=True)  # اگر فرم نام دارد
     email = models.EmailField(blank=True)                # اگر فرم ایمیل دارد
     text = models.TextField()                            # متن پیام
+    email=models.EmailField()
     created_at = models.DateTimeField(auto_now_add=True)
+    birth_year = models.CharField(
+    max_length=4,
+    verbose_name='سال تولد',
+    default='1400'  # مقدار پیش‌فرض برای رکوردهای قبلی
+)
 
     def __str__(self):
         return f"پیام از {self.name or 'ناشناس'} در {self.created_at.strftime('%Y-%m-%d')}"
