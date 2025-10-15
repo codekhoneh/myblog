@@ -78,11 +78,25 @@
                               <!-- فیلدهای فرم -->
                               {{ myform.name }}
                               {{ myform.text }}
-                              {{ myform.birth_year }}
                               {{ myform.email }}
+                              {{ myform.birth_year }}
+                              <div class="mb-3">
+                                  <label>{{ myform.intro_method.label }}</label>
+                                  <div style="display: flex; gap: 20px;">
+                                    {% for radio in myform.intro_method %}
+                                      <label style="display: flex; align-items: center;">
+                                        {{ radio.tag }}
+                                        <span style="margin-right: 5px;">{{ radio.choice_label }}</span>
+                                      </label>
+                                    {% endfor %}
+                                  </div>
+                              </div>
+
+
 
                               
 
+                              
                               <!-- دکمه ارسال -->
                               <button type="submit" id="form-submit" class="main-button">ارسال پیام</button>
                           </div>

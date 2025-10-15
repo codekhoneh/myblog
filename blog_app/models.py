@@ -53,7 +53,16 @@ class ContactMessage(models.Model):
     verbose_name='سال تولد',
     default='1400'  # مقدار پیش‌فرض برای رکوردهای قبلی
 )
-
+    INTRO_METHOD_CHOICES = [
+        ('search', 'از طریق جستجو در اینترنت'),
+        ('friend', 'معرفی دوستان'),
+    ]
+    intro_method = models.CharField(
+        max_length=10,
+        choices=INTRO_METHOD_CHOICES,
+        verbose_name='نحوه آشنایی با سایت',
+        default='search'  # مقدار پیش‌فرض برای رکوردهای قبلی
+    )
     def __str__(self):
         return f"پیام از {self.name or 'ناشناس'} در {self.created_at.strftime('%Y-%m-%d')}"
 

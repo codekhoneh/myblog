@@ -20,18 +20,24 @@ class ContactUsForm(forms.ModelForm):
     choices=BIRTH_YEAR_CHOICES,
     widget=forms.Select(attrs={'class': 'form-control'}),
     label='سال تولد'
-)
+) 
+   intro_method = forms.ChoiceField(
+        choices=ContactMessage.INTRO_METHOD_CHOICES,
+        widget=forms.RadioSelect(attrs={
+            'style': 'transform: scale(0.5); margin: 0 10px 0 0;',
+        }),
+        label='نحوه آشنایی با سایت'
+    )
 
    class Meta:
     model = ContactMessage
-    fields = ['name', 'text', 'email']
+    fields = ['name', 'text', 'email','intro_method']
     widgets = {
         'name': forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'نام خود را وارد کنید'
         }),
         'email': forms.EmailInput(attrs={
-            'class': 'form-control',
             'placeholder': 'ایمیل خود را وارد کنید'
         }),
         'text': forms.Textarea(attrs={
