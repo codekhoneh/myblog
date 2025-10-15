@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils.text import slugify
-
+from django.utils import timezone
 class category(models.Model):
     title = models.CharField(max_length=100)
     created = models.DateTimeField(auto_now_add=True)
@@ -38,4 +38,12 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.body[:50]
+class Message(models.Model): 
+    title=models.CharField(max_length=100) 
+    text=models.TextField() 
+    email=models.EmailField() 
+    created_at=models.DateTimeField(auto_now_add=True)
+ 
+    def __str__(self): 
+     return self.title 
 # Create your models here.

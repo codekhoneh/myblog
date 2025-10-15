@@ -2,6 +2,8 @@ from django.shortcuts import render,get_object_or_404
 from django.core.paginator import Paginator
 from blog_app.models import artikle,category,Comment
 from contactus_app.models import footer
+from .forms import ContactUsForm 
+from .models import Message
 
 def post_detail(request, slug):
     # دریافت تمام مقالات با slug مورد نظر
@@ -45,7 +47,7 @@ def allarticle_list(request):
     page_number = request.GET.get('page')
     paginatori = Paginator(article,2)
     object_list = paginatori.get_page(page_number)
-    return render(request,'blog_app/all_artikle_list.html',{'articli':object_list , 'footers' : footer1})
+    return render(request,'blog_app/all_artikle_list.html',{'page_obj': object_list , 'footers' : footer1})
 def category_detail(request,pk=None):
     categor=get_object_or_404(category,id=pk)
     arti=categor.artikle_set.all()
@@ -100,3 +102,17 @@ def search(request):
         'query': query,        
         # ⚡ تغییر: ارسال query برای نگهداری جستجو در لینک‌های pagination
     })
+def contactus(request): 
+    form = ContactUsForm(data=request.POST or None)
+    message = None
+    if request.method == 'POST':
+        if not request.user.is_authenticated:
+            message = "برای ارسال پیام باید ابتدا وارد شوید یا ثبت‌نام کنید."
+        elif form.is_valid():
+            Message.objects.create(
+                title=form.cleaned_data.get('name'),
+                text=form.cleaned_data.get('text'),
+            )
+            message = "پیام شما با موفقیت ثبت شد."
+            form = ContactUsForm()  # خالی کردن فرم بعد ثبت موفق
+    return render(request, 'blog_app/contact_us.html', {'myform': form, 'message': message})
