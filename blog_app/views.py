@@ -1,7 +1,35 @@
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render,get_object_or_404,redirect
 from django.core.paginator import Paginator
 from blog_app.models import artikle,category,Comment
 from contactus_app.models import footer
+from django.contrib import messages
+from.forms import ContactUsForm
+from django.urls import reverse
+
+def contactus(request):
+    if request.method == 'POST':
+        if not request.user.is_authenticated:
+            messages.warning(request, '⚠️ برای ارسال پیام باید ابتدا وارد حساب کاربری خود شوید.')
+            # کاربر به صفحه لاگین هدایت می‌شود 
+            # مسیر لاگین دقیق از urls.py
+            login_url = reverse('account:login')  
+            # هدایت به login با next
+             # و پس از لاگین موفق، به همین صفحه (contact-us) بازمی‌گردد
+            return redirect(f'{login_url}?next={request.path}')
+        
+        # اگر کاربر لاگین کرده است
+        form = ContactUsForm(request.POST)
+        if form.is_valid():
+            form.save() 
+            messages.success(request, '✅ پیام شما با موفقیت ارسال شد.')
+            return redirect('blog:contact_us')
+        else:
+            messages.error(request, '❌ لطفاً خطاهای فرم را بررسی کنید.')
+    else:
+        form = ContactUsForm() 
+    
+    return render(request, 'blog_app/contact.html', {'form': form})
+
 
 def post_detail(request, slug):
     # دریافت تمام مقالات با slug مورد نظر

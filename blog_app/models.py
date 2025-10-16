@@ -8,7 +8,7 @@ class category(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.title
-
+ 
 class artikle(models.Model):
     author = models.ForeignKey(User,on_delete=models.CASCADE)
     title = models.CharField(max_length=30)
@@ -38,4 +38,32 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.body[:50]
-# Create your models here.
+    
+
+
+class Contact(models.Model):
+    name = models.CharField(max_length=100, blank=True)
+    email = models.EmailField(blank=True)
+    subject = models.CharField(max_length=300, blank=True)
+    message = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.name} - {self.subject[:30]}'
+
+    class Meta:
+        verbose_name = "پیام کاربر"
+        verbose_name_plural = "پیام‌های کاربران"
+        ordering = ['-created_at']
+    
+
+# class Contact(models.Model):
+#     name=models.CharField(max_length=100,blank=True)
+#     email=models.EmailField(blank=True)
+#     subject=models.CharField(max_length=300,blank=True)
+#     message=models.TextField(blank=True)
+#     created_at=models.DateTimeField(auto_now_add=True)
+
+#     def __str__(self):
+#         return f'{self.name}-{self.subject[:30]}'
+ 
