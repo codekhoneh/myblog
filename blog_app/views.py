@@ -100,3 +100,30 @@ def search(request):
         'query': query,        
         # ⚡ تغییر: ارسال query برای نگهداری جستجو در لینک‌های pagination
     })
+
+
+
+from .forms import ContactUsForm
+from contactus_app.models import ContactMessage
+
+
+def contactus(request):
+    footer1 = footer.objects.last()
+    success = False
+    if request.method == 'POST':
+        form = ContactUsForm(request.POST)
+        if form.is_valid():
+            # Save message to database
+            ContactMessage.objects.create(
+                name=form.cleaned_data.get('name'),
+                email=form.cleaned_data.get('email') if 'email' in form.cleaned_data else None,
+                text=form.cleaned_data.get('text'),
+                birth_year=form.cleaned_data.get('birth_year')
+            )
+            success = True
+            # reset to empty form after successful submit
+            form = ContactUsForm()
+    else:
+        form = ContactUsForm()
+
+    return render(request, 'blog_app/contact_us.html', {'myform': form, 'success': success, 'footers': footer1})
