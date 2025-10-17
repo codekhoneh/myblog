@@ -16,6 +16,8 @@ class ContactMessage(models.Model):
     email = models.EmailField(blank=True, null=True)
     text = models.TextField()
     birth_year = models.CharField(max_length=10, blank=True, null=True)
+    
+    source = models.CharField(max_length=20, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

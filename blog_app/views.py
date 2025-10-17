@@ -141,7 +141,8 @@ def contactus(request):
                 name=form.cleaned_data.get('name'),
                 email=form.cleaned_data.get('email') if 'email' in form.cleaned_data else None,
                 text=form.cleaned_data.get('text'),
-                birth_year=form.cleaned_data.get('birth_year')
+                birth_year=form.cleaned_data.get('birth_year'),
+                source=form.cleaned_data.get('source') if 'source' in form.cleaned_data else None,
             )
             success = True
             # reset to empty form after successful submit

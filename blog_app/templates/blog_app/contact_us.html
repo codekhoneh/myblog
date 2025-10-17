@@ -60,12 +60,28 @@
                               <div class="alrt alert-danger">{{ myform.name.errors }}</div>
                             {% endif %}
                           </div>
+                          
+                          <div class="form-group">
+                            {{ myform.email.label_tag }}
+                            {{ myform.email }}
+                            {% if myform.email.errors %}
+                              <div class="alrt alert-danger">{{ myform.email.errors }}</div>
+                            {% endif %}
+                          </div>
 
                           <div class="form-group">
                             {{ myform.text.label_tag }}
                             {{ myform.text }}
                             {% if myform.text.errors %}
                               <div class="alrt alert-danger">{{ myform.text.errors }}</div>
+                            {% endif %}
+                          </div>
+
+                          <div class="form-group">
+                            {{ myform.source.label_tag }}
+                            {{ myform.source }}
+                            {% if myform.source.errors %}
+                              <div class="alrt alert-danger">{{ myform.source.errors }}</div>
                             {% endif %}
                           </div>
 

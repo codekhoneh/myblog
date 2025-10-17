@@ -1,7 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
-
 class ContactUsForm(forms.Form):
     text = forms.CharField(
         max_length=1000,
@@ -15,12 +14,32 @@ class ContactUsForm(forms.Form):
         widget=forms.TextInput(attrs={'class': 'form-control'})
     )
 
+    email= forms.EmailField(
+        label='your email',
+        max_length=100,
+        required=False,
+        widget=forms.EmailInput(attrs={'class': 'form-control'})
+    )
+
     birth_year_choices = [
         ('1399', '1399'), ('1400', '1400'), ('1401', '1401'),
         ('1402', '1402'), ('1403', '1403'), ('1404', '1404')
     ]
     birth_year = forms.ChoiceField(
         choices=birth_year_choices,
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+
+    SOURCE_CHOICES = [
+        ('', '--- How did you hear about us? ---'),
+        ('google', 'Google / Search'),
+        ('social', 'Social Media'),
+        ('friend', 'Friend / Family'),
+        ('ad', 'Advertisement'),
+        ('other', 'Other'),
+    ]
+    source = forms.ChoiceField(
+        choices=SOURCE_CHOICES,
         widget=forms.Select(attrs={'class': 'form-control'})
     )
 

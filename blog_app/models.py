@@ -39,14 +39,16 @@ class Comment(models.Model):
     def __str__(self):
         return self.body[:50]
     
-class Message(models.Model): 
-    title=models.CharField(max_length=100) 
+class ContactMessage(models.Model): 
     text=models.TextField() 
-    email=models.EmailField() 
+    email=models.EmailField(blank=True)
+    name=models.CharField(max_length=100,blank=True) 
+    birth_year=models.CharField(max_length=10,blank=True)
+    source=models.CharField(max_length=20,blank=True) 
     created_at=models.DateTimeField(auto_now_add=True,null=True) 
  
     def __str__(self): 
-     return self.title
+     return f" پیام از{self.name or 'ناشناس'}  در{self.created_at.strftime('%Y-%m-%d')}"
     
 
     
