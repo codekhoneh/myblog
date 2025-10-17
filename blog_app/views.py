@@ -109,8 +109,10 @@ def contactus(request):
     form = ContactUsForm(data=request.POST or None)
     footers = footer.objects.last()
     if request.method == 'POST':
+        
         if not request.user.is_authenticated:
-            login_url = reverse('account:login')
+            
+            login_url = reverse('account:register')
             return redirect(f'{login_url}?next={request.path}')
         elif form.is_valid():
             form.save()

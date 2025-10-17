@@ -14,6 +14,7 @@
 .contact-us {
   padding: 60px 0;
   background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+  
 }
 .contact-us .down-contact {
   background: #fff;
@@ -137,7 +138,7 @@
   background-repeat: no-repeat;
   padding-right: 36px;
 }
-ب
+
 </style>
 
 <!-- Page Content -->
@@ -230,6 +231,7 @@
                               <button type="submit" id="form-submit" class="main-button">Send Message</button>
                               {% else %}
                               <a href="{% url 'account:register' %}?next={{ request.path }}"  class="btn btn-warning">برای ثبت کامنت اول ثبت نام یا لاگین کنید</a>
+
                               {% endif %}
 
                             </fieldset>
@@ -277,4 +279,4 @@
       </div>
     </section>
 
-{% endblock %} 
+{% endblock %}

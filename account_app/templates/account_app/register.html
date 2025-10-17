@@ -80,7 +80,7 @@
 					</div>
 
 					<div class="text-center p-t-90">
-						<a class="txt1" href="/login" style="font-size:1.2rem;">Login</a>
+						<a class="txt1" href="{% url 'account:login' %}?next={{ request.GET.next }}" style="font-size:1.2rem;">Login</a>
 						
 					</div>
 				</form>

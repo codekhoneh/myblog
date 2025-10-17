@@ -38,13 +38,13 @@
                   {% else %}
                   <a class="nav-link" href="" style="font-size: 1.1rem;margin-top: -4px;"><span class="badge badge-dark">{{request.user.username}}</span></a>
                   {% endif %}
-                  <a class="nav-link" href="{% url 'account:logout' %}" style="font-size: 1.2rem;margin-top: -7px;"><span class="badge badge-warning">logout</span></a>
+                  <a class="nav-link" href="{% url 'account:logout' %}" style="font-size: 1.2rem;margin-top: -5px;"><span class="badge badge-warning">logout</span></a>
                 </div>
                 {% else %}
                 <div class="d-flex">
                     <a class="nav-link" href="{% url 'account:login' %}" style="font-size: 1.4rem;margin-top: -7px;"><span class="badge badge-success">login</span></a>
                   
-                    <a class="nav-link" href="{% url 'account:register' %}" style="font-size: 1.2rem;margin-top: -7px;"><span class="badge badge-warning">register</span></a>
+                    <a class="nav-link" href="{% url 'account:register' %}" style="font-size: 1.5rem;margin-top: -7px;"><span class="badge badge-warning">register</span></a>
                   
                 </div>
                 {% endif %}

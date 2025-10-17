@@ -6,13 +6,13 @@ class ContactUsForm(forms.ModelForm):
         max_length=50,
         label='your message',
         required=True,
-        widget=forms.TextInput(attrs={'placeholder': 'متن پیام را وارد کنید','class': 'form-control'})
+        widget=forms.TextInput(attrs={'placeholder': 'متن پیام را وارد کنید','class': 'form-control','style':'font-weight:bolder ;font-size:1.3rem'})
     )
     name=forms.CharField(
         max_length=5,
         label='your name',
         required=True,
-        widget=forms.TextInput(attrs={'placeholder': 'نام خود را وارد کنید','class': 'form-control'})
+        widget=forms.TextInput(attrs={'placeholder': 'نام خود را وارد کنید','class': 'form-control','style':'font-weight:bolder ;font-size:1.3rem'})
     )
     birth_year_choices=[
             ('','سال تولد خود را انتخاب کنید'),
@@ -23,7 +23,7 @@ class ContactUsForm(forms.ModelForm):
             ('1403','1403'),
             ('1404','1404')
         ]
-    birth_year=forms.ChoiceField(choices=birth_year_choices,widget=forms.Select(attrs={'class':'form-control'}),)
+    birth_year=forms.ChoiceField(choices=birth_year_choices,widget=forms.Select(attrs={'class':'form-control','style':'font-weight:bolder ;'}),)
         
     tahsilat_choice=[('sikl','sikl'),('deplom','Diplom'),('karshenas','karshenas'),('arshad','arshad'),('dr','dr')] 
     tahsilat=forms.ChoiceField(widget=forms.RadioSelect(),choices=tahsilat_choice)
@@ -53,7 +53,8 @@ class ContactUsForm(forms.ModelForm):
             }),
             'email':forms.EmailInput(attrs={
                 'class':'form-control',
-                'placeholder':'ایمیل خود را وارد کنید'
+                'placeholder':'ایمیل خود را وارد کنید',
+                'style':'font-weight:bolder ;font-size:1.3rem'
             }),
             'text':forms.TextInput(attrs={
                 'class':'form-control',

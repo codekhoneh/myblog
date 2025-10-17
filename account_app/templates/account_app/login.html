@@ -35,6 +35,7 @@
 			<div class="wrap-login100">
 				<form class="login100-form validate-form" method="post">
 					{% csrf_token %}
+					<input type="hidden" name="next" value="{{ request.GET.next }}">
 					<span class="login100-form-logo">
 						<i class="zmdi zmdi-landscape"></i>
 					</span>
@@ -59,6 +60,7 @@
 							Remember me
 						</label>
 					</div>
+					<input type="hidden" name="next" value="{{ request.GET.next|default:'' }}">
 
 					<div class="container-login100-form-btn">
 						<button class="login100-form-btn">
