@@ -39,11 +39,11 @@ class Comment(models.Model):
     def __str__(self):
         return self.body[:50]
 class Message(models.Model): 
-    title=models.CharField(max_length=100) 
-    text=models.TextField() 
+    title=models.CharField(max_length=100,blank=True) 
+    text=models.TextField(blank=True) 
     email=models.EmailField() 
     created_at=models.DateTimeField(auto_now_add=True)
-    birth_year=models.CharField(max_length=4,verbose_name='سال تولد',default='1400')
+    birth_year=models.CharField(max_length=4,verbose_name='سال تولد',default='1400',blank=True)
     INTRO_METHOD_CHOICES = [
         ('search','از طریق جست و جو در اینترنت'),
         ('friend','از طریق دوستان'),
@@ -53,6 +53,7 @@ class Message(models.Model):
         choices=INTRO_METHOD_CHOICES,
         verbose_name='نحوه آشنایی با سایت',
         default='serach',
+        blank=True
     )
     def __str__(self): 
      return f'پیام از {self.title or 'ناشناس'} در {self.created_at.strftime('%Y-%m-%d')}'

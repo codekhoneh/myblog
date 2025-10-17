@@ -138,7 +138,12 @@
   background-repeat: no-repeat;
   padding-right: 36px;
 }
-
+/* Ensure inputs in the contact form are not forced to uppercase by global CSS */
+      .sidebar-item.contact-form form input,
+      .sidebar-item.contact-form form textarea,
+      .sidebar-item.contact-form form select {
+        text-transform: none !important;
+      }
 </style>
 
 <!-- Page Content -->

@@ -23,13 +23,13 @@ class ContactUsForm(forms.ModelForm):
             ('1403','1403'),
             ('1404','1404')
         ]
-    birth_year=forms.ChoiceField(choices=birth_year_choices,widget=forms.Select(attrs={'class':'form-control','style':'font-weight:bolder ;'}),)
+    birth_year=forms.ChoiceField(choices=birth_year_choices,required=False,widget=forms.Select(attrs={'class':'form-control','style':'font-weight:bolder ;'}),)
         
     tahsilat_choice=[('sikl','sikl'),('deplom','Diplom'),('karshenas','karshenas'),('arshad','arshad'),('dr','dr')] 
     tahsilat=forms.ChoiceField(widget=forms.RadioSelect(),choices=tahsilat_choice)
     favorits_program_language_choice=[('Python','python'),('django','Django'),('html','Html'),('css','Css')] 
     language_favorits=forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(),choices=favorits_program_language_choice)
-    intro_method=forms.ChoiceField(choices=Message.INTRO_METHOD_CHOICES,
+    intro_method=forms.ChoiceField(choices=Message.INTRO_METHOD_CHOICES,required=False,
                                        widget=forms.RadioSelect(attrs={'style':'transform:scale(0.5);margin:0 10 0 0'}),
                                        label='نحوه آشنایی با سایت')
     def clean(self): 
