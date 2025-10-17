@@ -1,0 +1,145 @@
+/* Styles for contact-us section (blog_app/templates/blog_app/contact_us.html)
+   Put this file at static/css/contact_us.css and include with {% static %} in your template or base.html
+*/
+
+/* Container and layout */
+.contact-us {
+  padding: 60px 0;
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+}
+.contact-us .down-contact {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(18, 38, 63, 0.06);
+  padding: 28px;
+}
+
+/* Form card */
+.contact-form .content {
+  padding: 18px;
+}
+
+#contact .form-control {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #d1d5db;
+  border-radius: 10px;
+  background: #fff;
+  font-weight: 700;
+  font-size: 1.08rem;
+  color: #22223b;
+  transition: border-color .18s cubic-bezier(.4,0,.2,1), box-shadow .18s cubic-bezier(.4,0,.2,1);
+  box-shadow: 0 2px 8px rgba(79,70,229,0.04);
+}
+#contact .form-control:focus {
+  outline: none;
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124,58,237,0.13);
+  background: #f5f3ff;
+}
+
+/* Labels */
+.contact-us label {
+  display:block;
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: #3b0764;
+  letter-spacing: 0.01em;
+  font-size: 1.07rem;
+}
+
+/* Helper text and errors */
+.contact-us .help-text {
+  display:block;
+  font-size: 0.85rem;
+  color:#6b7280;
+  margin-top:6px;
+}
+.contact-us .alert-danger {
+  background: linear-gradient(90deg,#fef2f2 60%,#f3e8ff 100%);
+  color: #b91c1c;
+  border: 2px solid #fca5a5;
+  padding: 13px 16px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 1.01rem;
+  box-shadow: 0 2px 8px rgba(252,165,165,0.10);
+}
+
+/* Radio and select styling */
+.contact-us .radio-group {
+  display:flex;
+  flex-wrap:wrap;
+  gap: 12px 18px;
+  align-items:center;
+}
+.radio-group label {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 14px;
+  border-radius:10px;
+  cursor:pointer;
+  background: #f3f4f6;
+  border: 2px solid transparent;
+  font-weight: 700;
+  font-size: 1.01rem;
+  transition: border-color .15s, background .15s;
+}
+.radio-group input[type="radio"] { transform: scale(1.08); }
+.radio-group input[type="radio"]:checked + span,
+.radio-group label:has(input[type="radio"]:checked) {
+  background: linear-gradient(90deg,#ede9fe 60%,#f8fafc 100%);
+  border-color: #7c3aed;
+  color: #4f46e5;
+}
+
+/* Buttons */
+.contact-us .btn-primary {
+  background: linear-gradient(90deg,#4f46e5,#7c3aed);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  box-shadow: 0 6px 18px rgba(124,58,237,0.12);
+}
+.contact-us .btn-secondary {
+  background: #f3f4f6;
+  color: #111827;
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+}
+.contact-us .auth-cta {
+  display:inline-block;
+  font-weight:700;
+  font-size:1rem;
+  padding:10px 16px;
+  border-radius:10px;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+  .contact-us { padding: 28px 0; }
+  .contact-us .down-contact { padding: 18px; }
+  .radio-group { gap:10px; }
+}
+
+/* Small utilities */
+.mb-10 { margin-bottom: 10px; }
+.mt-6 { margin-top: 6px; }
+
+/* Make the select look nicer in some browsers */
+#contact select.form-control {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, #6b7280 50%),
+                    linear-gradient(135deg, #6b7280 50%, transparent 50%);
+  background-position: calc(100% - 18px) calc(1em + 2px), calc(100% - 13px) calc(1em + 2px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 36px;
+}

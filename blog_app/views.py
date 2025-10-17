@@ -1,4 +1,5 @@
 from django.shortcuts import render,get_object_or_404,redirect
+from django.urls import reverse
 from django.core.paginator import Paginator
 from blog_app.models import artikle,category,Comment
 from contactus_app.models import footer
@@ -108,13 +109,14 @@ def contactus(request):
     form = ContactUsForm(data=request.POST or None)
     footers = footer.objects.last()
     if request.method == 'POST':
-        
-        if form.is_valid():
+        if not request.user.is_authenticated:
+            login_url = reverse('account:login')
+            return redirect(f'{login_url}?next={request.path}')
+        elif form.is_valid():
             form.save()
             messages.success(request,"پیام شما با موفقیت ثبت شد.")
+            form = ContactUsForm()  # خالی کردن فرم بعد ثبت موفق
 
             return redirect('blog_app:contact_us')
-        else:
-
-            form = ContactUsForm()
+    form = ContactUsForm()
     return render(request, 'blog_app/contact_us.html', {'myform': form,'footers':footers})

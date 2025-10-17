@@ -13,7 +13,12 @@ def user_login(request):
         user=authenticate(request,username=username,password=password)
         if user is not None:
             login(request,user)
-            return redirect('/')
+            next_url = request.GET.get('next')
+            if next_url:
+                return redirect(next_url)
+            else:
+
+                return redirect('/')
     return render(request,'account_app/login.html',context={})
 def user_logout(request):
     logout(request)
@@ -39,6 +44,12 @@ def user_register(request):
                 
         user1 =User.objects.create_user(username=username,password=password,email=email)
         login(request,user1)
-        return redirect('/')
+        next_url = request.GET.get('next')
+        if next_url:
+            return redirect(next_url)
+        else:
+
+            return redirect('/')
+ 
     return render(request,'account_app/register.html',context={})
 # Create your views here.
