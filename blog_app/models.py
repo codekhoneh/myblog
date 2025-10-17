@@ -43,7 +43,17 @@ class Message(models.Model):
     text=models.TextField() 
     email=models.EmailField() 
     created_at=models.DateTimeField(auto_now_add=True)
- 
+    birth_year=models.CharField(max_length=4,verbose_name='سال تولد',default='1400')
+    INTRO_METHOD_CHOICES = [
+        ('search','از طریق جست و جو در اینترنت'),
+        ('friend','از طریق دوستان'),
+    ]
+    intro_method = models.CharField(
+        max_length=10,
+        choices=INTRO_METHOD_CHOICES,
+        verbose_name='نحوه آشنایی با سایت',
+        default='serach',
+    )
     def __str__(self): 
-     return self.title 
+     return f'پیام از {self.title or 'ناشناس'} در {self.created_at.strftime('%Y-%m-%d')}'
 # Create your models here.

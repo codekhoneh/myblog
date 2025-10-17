@@ -1,9 +1,11 @@
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render,get_object_or_404,redirect
 from django.core.paginator import Paginator
 from blog_app.models import artikle,category,Comment
 from contactus_app.models import footer
 from .forms import ContactUsForm 
 from .models import Message
+from django.contrib import messages
+from contactus_app.models import footer
 
 def post_detail(request, slug):
     # دریافت تمام مقالات با slug مورد نظر
@@ -104,15 +106,15 @@ def search(request):
     })
 def contactus(request): 
     form = ContactUsForm(data=request.POST or None)
-    message = None
+    footers = footer.objects.last()
     if request.method == 'POST':
-        if not request.user.is_authenticated:
-            message = "برای ارسال پیام باید ابتدا وارد شوید یا ثبت‌نام کنید."
-        elif form.is_valid():
-            Message.objects.create(
-                title=form.cleaned_data.get('name'),
-                text=form.cleaned_data.get('text'),
-            )
-            message = "پیام شما با موفقیت ثبت شد."
-            form = ContactUsForm()  # خالی کردن فرم بعد ثبت موفق
-    return render(request, 'blog_app/contact_us.html', {'myform': form, 'message': message})
+        
+        if form.is_valid():
+            form.save()
+            messages.success(request,"پیام شما با موفقیت ثبت شد.")
+
+            return redirect('blog_app:contact_us')
+        else:
+
+            form = ContactUsForm()
+    return render(request, 'blog_app/contact_us.html', {'myform': form,'footers':footers})
