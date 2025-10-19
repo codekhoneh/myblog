@@ -1,12 +1,13 @@
 from django import forms 
 from django.core.exceptions import ValidationError
 from .models import Message
+
 class ContactUsForm(forms.ModelForm): 
     text=forms.CharField(
         max_length=50,
         label='your message',
         required=True,
-        widget=forms.TextInput(attrs={'placeholder': 'متن پیام را وارد کنید','class': 'form-control','style':'font-weight:bolder ;font-size:1.3rem'})
+        widget=forms.Textarea(attrs={'placeholder': 'متن پیام را وارد کنید','class': 'form-control','style':'font-weight:bolder ;font-size:1.3rem'})
     )
     name=forms.CharField(
         max_length=5,
@@ -32,17 +33,19 @@ class ContactUsForm(forms.ModelForm):
     intro_method=forms.ChoiceField(choices=Message.INTRO_METHOD_CHOICES,required=False,
                                        widget=forms.RadioSelect(attrs={'style':'transform:scale(0.5);margin:0 10 0 0'}),
                                        label='نحوه آشنایی با سایت')
-    def clean(self): 
-        name=self.cleaned_data.get('name') 
-        text=self.cleaned_data.get('text')
-        
-        if name==text: 
-            raise ValidationError('ERRORS:name and text same',code='name_text_same') 
-    def clean_name(self): 
-        name=self.cleaned_data.get('name') 
-        if '@' in name: 
-             raise ValidationError('@ can not be name',code='@_in code') 
-        return name 
+    def clean(self):
+        cleaned_data = super().clean()
+        name = cleaned_data.get('name')
+        text = cleaned_data.get('text')
+        if name == text:
+            self.add_error('name', 'نام و پیام نباید یکسان باشند')
+        return cleaned_data
+
+    def clean_name(self):
+        name = self.cleaned_data.get('name')
+        if name and '@' in name:
+            raise ValidationError('@ نمی‌تواند در نام باشد', code='@_in_name')
+        return name
     class Meta:
         model = Message
         fields = ['title','text','email']

@@ -120,5 +120,4 @@ def contactus(request):
             form = ContactUsForm()  # خالی کردن فرم بعد ثبت موفق
 
             return redirect('blog_app:contact_us')
-    form = ContactUsForm()
     return render(request, 'blog_app/contact_us.html', {'myform': form,'footers':footers})
