@@ -133,21 +133,44 @@ from contactus_app.models import ContactMessage
 def contactus(request):
     footer1 = footer.objects.last()
     success = False
-    if request.method == 'POST':
-        form = ContactUsForm(request.POST)
-        if form.is_valid():
-            # Save message to database
-            ContactMessage.objects.create(
-                name=form.cleaned_data.get('name'),
-                email=form.cleaned_data.get('email') if 'email' in form.cleaned_data else None,
-                text=form.cleaned_data.get('text'),
-                birth_year=form.cleaned_data.get('birth_year'),
-                source=form.cleaned_data.get('source') if 'source' in form.cleaned_data else None,
-            )
-            success = True
-            # reset to empty form after successful submit
-            form = ContactUsForm()
-    else:
-        form = ContactUsForm()
+    not_allowed = False
 
-    return render(request, 'blog_app/contact_us.html', {'myform': form, 'success': success, 'footers': footer1})
+    # If user is trying to submit but isn't authenticated, don't save the message
+    if request.method == 'POST':
+        if not request.user.is_authenticated:
+            # mark that anonymous attempted to post so template can show a message
+            not_allowed = True
+            form = ContactUsForm(request.POST)
+        else:
+            form = ContactUsForm(request.POST)
+            if form.is_valid():
+                # Save message to database
+                ContactMessage.objects.create(
+                    name=form.cleaned_data.get('name'),
+                    email=form.cleaned_data.get('email') if 'email' in form.cleaned_data else None,
+                    text=form.cleaned_data.get('text'),
+                    birth_year=form.cleaned_data.get('birth_year'),
+                    source=form.cleaned_data.get('source') if 'source' in form.cleaned_data else None,
+                )
+                success = True
+                # reset to empty form after successful submit, prefill name/email for logged-in user
+                form = ContactUsForm(initial={
+                    'name': getattr(request.user, 'get_full_name', lambda: '')() or request.user.username,
+                    'email': request.user.email,
+                })
+    else:
+        # For GET, prefill name/email for authenticated users
+        if request.user.is_authenticated:
+            form = ContactUsForm(initial={
+                'name': getattr(request.user, 'get_full_name', lambda: '')() or request.user.username,
+                'email': request.user.email,
+            })
+        else:
+            form = ContactUsForm()
+
+    return render(request, 'blog_app/contact_us.html', {
+        'myform': form,
+        'success': success,
+        'footers': footer1,
+        'not_allowed': not_allowed,
+    })

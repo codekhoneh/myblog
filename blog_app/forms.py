@@ -31,7 +31,7 @@ class ContactUsForm(forms.Form):
     )
 
     SOURCE_CHOICES = [
-        ('', '--- How did you hear about us? ---'),
+       
         ('google', 'Google / Search'),
         ('social', 'Social Media'),
         ('friend', 'Friend / Family'),
@@ -40,7 +40,7 @@ class ContactUsForm(forms.Form):
     ]
     source = forms.ChoiceField(
         choices=SOURCE_CHOICES,
-        widget=forms.Select(attrs={'class': 'form-control'})
+        widget=forms.RadioSelect(attrs={'class': 'form-check-input'})
     )
 
     def clean(self):

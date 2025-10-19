@@ -10,6 +10,25 @@
       .sidebar-item.contact-form form select {
         text-transform: none !important;
       }
+      /* Radio alignment and spacing: place radio input directly next to label text with extra gap */
+      .sidebar-item.contact-form .form-check {
+        display: flex;
+        align-items: center;
+        gap: 0.9rem; /* increased space between radio and text */
+        margin-bottom: 0.45rem;
+      }
+      .sidebar-item.contact-form .form-check-input {
+        /* ensure consistent placement and no extra browser margin */
+        margin: 0;
+        flex: 0 0 auto;
+      }
+      .sidebar-item.contact-form .form-check-label {
+        margin: 0;
+        line-height: 1.2;
+      }
+      /* If your site uses RTL, keep the radio visually next to its label by forcing inline direction */
+      .sidebar-item.contact-form .form-check { direction: ltr; }
+      .sidebar-item.contact-form .form-check-label { direction: rtl; }
     </style>
     <!-- Page Content -->
     <!-- Banner Starts Here -->
@@ -44,13 +63,20 @@
                       <h2>Send us a message</h2>
                     </div>
                     <div class="content">
+                      {# Show the form to everyone, but only allow sending for authenticated users #}
                       <form id="contact" action="" method="post">
-                            {% csrf_token %}
+                          {% csrf_token %}
                         <div class="row">
                           <div class="col-md-6 col-sm-12">
                           {% if success %}
                               <div class="alert alert-success">پیام با موفقیت ارسال شد.</div>
                           {% endif %}
+
+                          {# show server-side warning when anonymous tried to post #}
+                          {% if not_allowed %}
+                            <div class="alert alert-warning">برای ارسال پیام ابتدا باید وارد سایت شوید. <a href="{% url 'account:login' %}?next={% url 'blog:contact_us' %}">ورود</a> / <a href="{% url 'account:register' %}">ثبت نام</a></div>
+                          {% endif %}
+
                           {{ myform.non_field_errors }}
 
                           <div class="form-group">
@@ -78,13 +104,26 @@
                           </div>
 
                           <div class="form-group">
-                            {{ myform.source.label_tag }}
-                            {{ myform.source }}
+                            <label>{{ myform.source.label }}</label>
+                            <p>--- How did you hear about us? ---</p>
+                            <br>
+                            <div>
+                              {# Render radios with input before the label text #}
+                              {% for val, label in myform.source.field.choices %}
+                                <div class="form-check">
+                                  
+                                  <input class="form-check-input" type="radio" name="{{ myform.source.html_name }}" id="id_{{ myform.source.html_name }}_{{ forloop.counter0 }}" value="{{ val }}" {% if val == myform.source.value %}checked{% endif %}>
+                                  <label class="form-check-label" for="id_{{ myform.source.html_name }}_{{ forloop.counter0 }}">{{ label }}</label>
+                                </div>
+                              {% endfor %}
+                            </div>
                             {% if myform.source.errors %}
                               <div class="alrt alert-danger">{{ myform.source.errors }}</div>
                             {% endif %}
                           </div>
 
+                          <br>
+                          
                           <div class="form-group">
                             {{ myform.birth_year.label_tag }}
                             {{ myform.birth_year }}
@@ -95,7 +134,13 @@
 
                           <div class="col-lg-12">
                             <fieldset>
-                              <button type="submit" id="form-submit" class="main-button">Send Message</button>
+                              {% if user.is_authenticated %}
+                                <button type="submit" id="form-submit" class="main-button">Send Message</button>
+                              {% else %}
+                                <button type="button" class="main-button" disabled>Send Message</button>
+                                <br>
+                                <h4 class="d-block mt-2">برای ارسال پیام ابتدا باید <a style='color:red;' href="{% url 'account:login' %}?next={% url 'blog:contact_us' %}" >وارد شوید</a> یا <a style='color:red;' href="{% url 'account:register' %}">ثبت نام</a> کنید.</h4>
+                              {% endif %}
                             </fieldset>
                           </div>
                        
@@ -105,6 +150,7 @@
                     </div>
                   </div>
                 </div>
+                <br>
                 <div class="col-lg-4">
                   <div class="sidebar-item contact-information">
                     <div class="sidebar-heading">
