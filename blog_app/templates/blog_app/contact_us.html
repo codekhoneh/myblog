@@ -115,6 +115,8 @@
                                   <input class="form-check-input" type="radio" name="{{ myform.source.html_name }}" id="id_{{ myform.source.html_name }}_{{ forloop.counter0 }}" value="{{ val }}" {% if val == myform.source.value %}checked{% endif %}>
                                   <label class="form-check-label" for="id_{{ myform.source.html_name }}_{{ forloop.counter0 }}">{{ label }}</label>
                                 </div>
+                                <br>
+                                <br>
                               {% endfor %}
                             </div>
                             {% if myform.source.errors %}
