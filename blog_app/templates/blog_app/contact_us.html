@@ -178,10 +178,10 @@
                   <div class="sidebar-item contact-form">
                     <div class="sidebar-heading">
                       <h2>Send us a message</h2>
-                      {% if message %}
-                       {% for message in messages %}
-                        <div class="alert alert-warning mt-2">{{ message }}</div>
-                       {% endfor %}
+                      {% if messages %}
+                        {% for message in messages %}
+                         <div class="alert alert-warning mt-2">{{ message }}</div>
+                        {% endfor %}
                       {% endif %}
                     </div>
                     <div class="content">
@@ -189,35 +189,28 @@
                         {% csrf_token %} 
                         <div class="row">
                           <div class="col-md-6 col-sm-12">
-                            {{ myform.non_field_errors }}   
-                                {% if myform.name.errors %} 
-                                    <div class="alert alert-danger" >
+                            {{ myform.non_field_errors }}    
+                              <!-- خطاهای فیلد name -->
+                              {% if myform.name.errors %}
+                                  <div class="alert alert-danger">
                                       <ul>
-                                        {% for error in myform.name.errors %}
-                                        <li>
-                                            
-                                            {{error}}
-                                        </li>
-                                        {% endfor %}
+                                          {% for error in myform.name.errors %}
+                                              <li>{{ error }}</li>
+                                          {% endfor %}
                                       </ul>
-                                    </div>
-                                    
-                                
-                                {% endif %}
-                                
-                          
-                                {% if myform.text.errors %} 
-                                    <div class="alert alert-danger">
+                                  </div>
+                              {% endif %}
+
+                              <!-- خطاهای فیلد text -->
+                              {% if myform.text.errors %}
+                                  <div class="alert alert-danger">
                                       <ul>
-                                        {% for error in myform.text.errors %}                                          
-                                        <li>
-                                            
-                                            {{error}}
-                                        </li>
-                                        {% endfor %}
+                                          {% for error in myform.text.errors %}
+                                              <li >{{ error }}</li>
+                                          {% endfor %}
                                       </ul>
-                                    </div> 
-                                {% endif %} 
+                                  </div>
+                              {% endif %}
                                 {{myform.name}}
                                 {{myform.text}}
                                 {{myform.email}}

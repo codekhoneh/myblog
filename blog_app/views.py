@@ -106,18 +106,19 @@ def search(request):
         # ⚡ تغییر: ارسال query برای نگهداری جستجو در لینک‌های pagination
     })
 def contactus(request): 
-    form = ContactUsForm(data=request.POST or None)
     footers = footer.objects.last()
-    if request.method == 'POST':
-        
-        if not request.user.is_authenticated:
-            
-            login_url = reverse('account:register')
-            return redirect(f'{login_url}?next={request.path}')
-        elif form.is_valid():
-            form.save()
-            messages.success(request,"پیام شما با موفقیت ثبت شد.")
-            form = ContactUsForm()  # خالی کردن فرم بعد ثبت موفق
 
-            return redirect('blog_app:contact_us')
+    if request.method == 'POST':
+        form = ContactUsForm(request.POST)
+        if form.is_valid():
+            form.save()  # ذخیره مستقیم در مدل
+
+            messages.success(request, 'پیام شما با موفقیت ارسال شد!')
+            return redirect('blog:contact_us')
+        
+    
+    else:
+        form = ContactUsForm()
+
     return render(request, 'blog_app/contact_us.html', {'myform': form,'footers':footers})
+    
