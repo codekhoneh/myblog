@@ -1,0 +1,288 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% load render_partial %}
+
+{% block title %} 
+    contactus 
+{% endblock %} 
+ 
+{% block content %} 
+<style>
+  
+
+/* Container and layout */
+.contact-us {
+  padding: 60px 0;
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+  
+}
+.contact-us .down-contact {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(18, 38, 63, 0.06);
+  padding: 28px;
+}
+
+/* Form card */
+.contact-form .content {
+  padding: 18px;
+}
+#contact .form-control {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #e3e7ee;
+  border-radius: 8px;
+  background: #fff;
+  transition: border-color .15s ease, box-shadow .15s ease;
+  box-shadow: none;
+}
+#contact .form-control:focus {
+  outline: none;
+  border-color: #4f46e5; /* indigo */
+  box-shadow: 0 6px 18px rgba(79,70,229,0.08);
+}
+
+/* Labels */
+.contact-us label {
+  display:block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #102a43;
+}
+
+/* Helper text and errors */
+.contact-us .help-text {
+  display:block;
+  font-size: 0.85rem;
+  color:#6b7280;
+  margin-top:6px;
+}
+.contact-us .alert-danger {
+  background: #fff5f5;
+  color: #7f1d1d;
+  border: 1px solid #fecaca;
+  padding: 10px 12px;
+  border-radius: 6px;
+}
+
+/* Radio and select styling */
+.contact-us .radio-group {
+  display:flex;
+  flex-wrap:wrap;
+  gap: 12px 18px;
+  align-items:center;
+}
+.radio-group label {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 10px;
+  border-radius:8px;
+  cursor:pointer;
+  background: #fbfdff;
+  border: 1px solid transparent;
+}
+.radio-group input[type="radio"] { transform: scale(1.05); }
+.radio-group input[type="radio"]:checked + span,
+.radio-group label:has(input[type="radio"]:checked) {
+  background: linear-gradient(90deg,#eef2ff,#f8f6ff);
+  border-color: rgba(79,70,229,0.12);
+}
+
+/* Buttons */
+.contact-us .btn-primary {
+  background: linear-gradient(90deg,#4f46e5,#7c3aed);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  box-shadow: 0 6px 18px rgba(124,58,237,0.12);
+}
+.contact-us .btn-secondary {
+  background: #f3f4f6;
+  color: #111827;
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+}
+.contact-us .auth-cta {
+  display:inline-block;
+  font-weight:700;
+  font-size:1rem;
+  padding:10px 16px;
+  border-radius:10px;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+  .contact-us { padding: 28px 0; }
+  .contact-us .down-contact { padding: 18px; }
+  .radio-group { gap:10px; }
+}
+
+/* Small utilities */
+.mb-10 { margin-bottom: 10px; }
+.mt-6 { margin-top: 6px; }
+
+/* Make the select look nicer in some browsers */
+#contact select.form-control {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, #6b7280 50%),
+                    linear-gradient(135deg, #6b7280 50%, transparent 50%);
+  background-position: calc(100% - 18px) calc(1em + 2px), calc(100% - 13px) calc(1em + 2px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 36px;
+}
+/* Ensure inputs in the contact form are not forced to uppercase by global CSS */
+      .sidebar-item.contact-form form input,
+      .sidebar-item.contact-form form textarea,
+      .sidebar-item.contact-form form select {
+        text-transform: none !important;
+      }
+  
+</style>
+
+<!-- Page Content -->
+    <!-- Banner Starts Here -->
+    <div class="heading-page header-text">
+      <section class="page-heading">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="text-content">
+                <h4>contact us</h4>
+                <h2>let’s stay in touch!</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    
+    <!-- Banner Ends Here -->
+
+
+    <section class="contact-us">
+      <div class="container">
+        <div class="row">
+        
+          <div class="col-lg-12">
+            <div class="down-contact">
+              <div class="row">
+                <div class="col-lg-8">
+                  <div class="sidebar-item contact-form">
+                    <div class="sidebar-heading">
+                      <h2>Send us a message</h2>
+                      {% if messages %}
+                        {% for message in messages %}
+                         <div class="alert alert-warning mt-2">{{ message }}</div>
+                        {% endfor %}
+                      {% endif %}
+                    </div>
+                    <div class="content">
+                      <form id="contact" action="" method="post">
+                        {% csrf_token %} 
+                        <div class="row">
+                          <div class="col-md-6 col-sm-12">
+                            {{ myform.non_field_errors }}    
+                              <!-- خطاهای فیلد name -->
+                              {% if myform.name.errors %}
+                                  <div class="alert alert-danger">
+                                      <ul>
+                                          {% for error in myform.name.errors %}
+                                              <li>{{ error }}</li>
+                                          {% endfor %}
+                                      </ul>
+                                  </div>
+                              {% endif %}
+
+                              <!-- خطاهای فیلد text -->
+                              {% if myform.text.errors %}
+                                  <div class="alert alert-danger">
+                                      <ul>
+                                          {% for error in myform.text.errors %}
+                                              <li >{{ error }}</li>
+                                          {% endfor %}
+                                      </ul>
+                                  </div>
+                              {% endif %}
+                                {{myform.name}}
+                                {{myform.text}}
+                                {{myform.email}}
+                                {{myform.birth_year}}
+                                <div class="mb-3">
+                                  <label style="margin-top: 10px;">{{myform.intro_method.label}}</label>
+                                  <div style="display: flex;gap: 20px;">
+                                    {% for radio in myform.intro_method %}
+                                      <label style="display: flex;align-items: center;">
+                                        {{radio.tag}}
+                                        <span style="margin-right: 5px;">{{radio.choice_label}}</span>
+                                      </label>
+                                    {% endfor %}
+
+                                  </div>
+                                </div>
+                                
+                          </div>
+                          
+                          <div class="col-lg-12">
+                            <fieldset>
+                              {% if user.is_authenticated %}
+                              <button type="submit" id="form-submit" class="main-button">Send Message</button>
+                              {% else %}
+                              <a href="{% url 'account:login' %}?next={{ request.path }}"  class="btn btn-warning">برای ثبت کامنت اول ثبت نام یا لاگین کنید</a>
+
+                              {% endif %}
+
+                            </fieldset>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="sidebar-item contact-information">
+                    <div class="sidebar-heading">
+                      <h2>contact information</h2>
+                    </div>
+                    <div class="content">
+                      <ul>
+                        <li>
+                          <h5>090-484-8080</h5>
+                          <span>PHONE NUMBER</span>
+                        </li>
+                        <li>
+                          <h5>info@company.com</h5>
+                          <span>EMAIL ADDRESS</span>
+                        </li>
+                        <li>
+                          <h5>123 Aenean id posuere dui, 
+                          	<br>Praesent laoreet 10660</h5>
+                          <span>STREET ADDRESS</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-12">
+            <div id="map">
+              <iframe src="https://maps.google.com/maps?q=Av.+L%C3%BAcio+Costa,+Rio+de+Janeiro+-+RJ,+Brazil&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="450px" frameborder="0" style="border:0" allowfullscreen></iframe>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+
+
+{% endblock %}

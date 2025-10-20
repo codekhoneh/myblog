@@ -35,7 +35,11 @@
 			<div class="wrap-login100">
 				<form class="login100-form validate-form" method="post">
 					{% csrf_token %}
+<<<<<<< HEAD
 					<input type="hidden" name="next" value="{{ next }}">
+=======
+					<input type="hidden" name="next" value="{{ request.GET.next }}">
+>>>>>>> f41c882f22339677ede193f7aa3f0088eacc4edc
 					<span class="login100-form-logo">
 						<i class="zmdi zmdi-landscape"></i>
 					</span>
@@ -80,9 +84,14 @@
 					</div>
 
 					<div class="text-center p-t-90">
+<<<<<<< HEAD
 						 <a class="txt1" href="{% url 'account:login' %}{% if next %}?next={{ next }}{% endif %}">
                               login
                          </a>
+=======
+						<a class="txt1" href="{% url 'account:login' %}?next={{ request.GET.next }}" style="font-size:1.2rem;">Login</a>
+						
+>>>>>>> f41c882f22339677ede193f7aa3f0088eacc4edc
 					</div>
 				</form>
 			</div>

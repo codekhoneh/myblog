@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils.text import slugify
-
+from django.utils import timezone
 class category(models.Model):
     title = models.CharField(max_length=100)
     created = models.DateTimeField(auto_now_add=True)
@@ -38,6 +38,7 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.body[:50]
+<<<<<<< HEAD
     
 
 
@@ -69,3 +70,25 @@ class Contact(models.Model):
 #     def __str__(self):
 #         return f'{self.name}-{self.subject[:30]}'
  
+=======
+class Message(models.Model): 
+    name=models.CharField(max_length=100,blank=True) 
+    text=models.TextField(blank=True) 
+    email=models.EmailField() 
+    created_at=models.DateTimeField(auto_now_add=True)
+    birth_year=models.CharField(max_length=4,verbose_name='سال تولد',default='1400',blank=True)
+    INTRO_METHOD_CHOICES = [
+        ('search','از طریق جست و جو در اینترنت'),
+        ('friend','از طریق دوستان'),
+    ]
+    intro_method = models.CharField(
+        max_length=10,
+        choices=INTRO_METHOD_CHOICES,
+        verbose_name='نحوه آشنایی با سایت',
+        default='serach',
+        blank=True
+    )
+    def __str__(self): 
+     return f'پیام از {self.name or 'ناشناس'} در {self.created_at.strftime('%Y-%m-%d')}'
+# Create your models here.
+>>>>>>> f41c882f22339677ede193f7aa3f0088eacc4edc
