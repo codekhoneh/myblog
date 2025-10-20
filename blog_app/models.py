@@ -42,14 +42,16 @@ class Comment(models.Model):
 
 
 class Contact(models.Model):
-    name = models.CharField(max_length=100, blank=True)
-    email = models.EmailField(blank=True)
-    subject = models.CharField(max_length=300, blank=True)
-    message = models.TextField(blank=True)
+    name = models.CharField(max_length=100, blank=False)
+    email = models.EmailField(blank=False)
+    subject = models.CharField(max_length=300, blank=False)
+    message = models.TextField(blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    birth_year=models.CharField(max_length=4,verbose_name='year of birth',default='1400',blank=True,null=True)
+    intro_method=models.CharField(max_length=10,verbose_name='How to get to know the site',default='search')
 
     def __str__(self):
-        return f'{self.name} - {self.subject[:30]}'
+        return f"پیام از -{self.name or 'ناشناس'}   -در تاریخ {self.created_at.strftime('%y-%m-%d')}"
 
     class Meta:
         verbose_name = "پیام کاربر"

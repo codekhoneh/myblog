@@ -7,7 +7,10 @@ from.forms import ContactUsForm
 from django.urls import reverse
 
 def contactus(request):
-    if request.method == 'POST':
+     print("Request method:", request.method)
+     print("POST data:", request.POST)
+     if request.method == 'POST':
+        
         if not request.user.is_authenticated:
             messages.warning(request, '⚠️ برای ارسال پیام باید ابتدا وارد حساب کاربری خود شوید.')
             # کاربر به صفحه لاگین هدایت می‌شود 
@@ -19,16 +22,21 @@ def contactus(request):
         
         # اگر کاربر لاگین کرده است
         form = ContactUsForm(request.POST)
+      
         if form.is_valid():
+            print("Cleaned Data:", form.cleaned_data)
             form.save() 
             messages.success(request, '✅ پیام شما با موفقیت ارسال شد.')
             return redirect('blog:contact_us')
         else:
             messages.error(request, '❌ لطفاً خطاهای فرم را بررسی کنید.')
-    else:
+            print("Form Errors:", form.errors)
+         
+     else:
         form = ContactUsForm() 
     
-    return render(request, 'blog_app/contact.html', {'form': form})
+     return render(request, 'blog_app/contact.html', {'form': form})
+
 
 
 def post_detail(request, slug):

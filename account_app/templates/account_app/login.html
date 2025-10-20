@@ -81,6 +81,9 @@
 							Forgot Password?
 						</a>
 					</div>
+					<div class="text-center p-t-90">
+						  <a href="{% url 'account:register' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">register</a>
+					</div>
 				</form>
 			</div>
 		</div>
