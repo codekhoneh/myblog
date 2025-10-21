@@ -1,6 +1,11 @@
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render,get_object_or_404,redirect
+from django.urls import reverse
 from django.core.paginator import Paginator
 from blog_app.models import artikle,category,Comment
+from contactus_app.models import footer
+from .forms import ContactUsForm 
+from .models import Message
+from django.contrib import messages
 from contactus_app.models import footer
 
 def post_detail(request, slug):
@@ -45,35 +50,12 @@ def allarticle_list(request):
     page_number = request.GET.get('page')
     paginatori = Paginator(article,2)
     object_list = paginatori.get_page(page_number)
-    
-    # recent articles for sidebar and categories
-    recent_art = artikle.objects.order_by('-created')[:5]
-    cati = category.objects.all()
-    # send page_obj to template (template expects page_obj)
-    return render(request,'blog_app/all_artikle_list.html',{
-        'page_obj': object_list,
-        'footers' : footer1,
-        'recent_art': recent_art,
-        'cati': cati,
-        'query': ''
-    })
+    return render(request,'blog_app/all_artikle_list.html',{'page_obj': object_list , 'footers' : footer1})
 def category_detail(request,pk=None):
     categor=get_object_or_404(category,id=pk)
     arti=categor.artikle_set.all()
-# paginate category articles as well
-    page_number = request.GET.get('page')
-    paginator = Paginator(arti, 2)
-    object_list = paginator.get_page(page_number)
-    footer1 = footer.objects.last()
-    recent_art = artikle.objects.order_by('-created')[:5]
-    cati = category.objects.all()
-    return render(request,'blog_app/all_artikle_list.html',{
-        'page_obj': object_list,
-        'footers': footer1,
-        'recent_art': recent_art,
-        'cati': cati,
-        'query': ''
-    })
+    return render(request,'blog_app/all_artikle_list.html',{'articli':arti})
+
 # def search (request):
 #     q=request.GET.get('q')
 #     articl=artikle.objects.filter(slug__icontains=q)
@@ -123,3 +105,20 @@ def search(request):
         'query': query,        
         # ⚡ تغییر: ارسال query برای نگهداری جستجو در لینک‌های pagination
     })
+def contactus(request): 
+    footers = footer.objects.last()
+
+    if request.method == 'POST':
+        form = ContactUsForm(request.POST)
+        if form.is_valid():
+            form.save()  # ذخیره مستقیم در مدل
+
+            messages.success(request, 'پیام شما با موفقیت ارسال شد!')
+            return redirect('blog:contact_us')
+        
+    
+    else:
+        form = ContactUsForm()
+
+    return render(request, 'blog_app/contact_us.html', {'myform': form,'footers':footers})
+    
