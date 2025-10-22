@@ -3,20 +3,21 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
-
+from .forms import LoginForm
 def user_login(request):
-    if request.user.is_authenticated:
-        next_url = request.POST.get('next')
+    next_url = request.POST.get('next')
+    if request.user.is_authenticated == True:
+        
         return redirect(next_url if next_url else '/')
-    elif request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            next_url = request.POST.get('next')
+    if request.method == 'POST':
+        myform = LoginForm(request.POST)
+        if myform.is_valid():
+            user = User.objects.get(username = myform.cleaned_data.get('username'))
+            login(request,user)
             return redirect(next_url if next_url else '/')
-    return render(request, 'account_app/login.html', context={})
+    else:
+        myform = LoginForm()
+    return render(request, 'account_app/login.html', {'myform':myform})
 
 def user_logout(request):
     logout(request)
