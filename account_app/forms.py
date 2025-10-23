@@ -14,13 +14,12 @@ class LoginForm(forms.Form):
         cleaned_data = super().clean()
         username = cleaned_data.get('username','').strip()
         password = cleaned_data.get('password')
-        if not User.objects.filter(username=username).exists():
-            raise forms.ValidationError('نام کاربری یا رمز عبور اشتباه است.')
-
-        # 2️⃣ بررسی پسورد برای همان یوزرنیم
+        
         user = authenticate(username=username, password=password)
         if user is None:
-            raise forms.ValidationError('رمز عبور اشتباه است.')
+          raise ValidationError("⚠️ اطلاعات وارد شده صحیح نیست. لطفاً دوباره تلاش کنید!", code="invalid_info")     
+        return   
+        
 class RegisterForm(forms.Form):
       
       username = forms.CharField(max_length=50,widget=forms.TextInput(attrs={'class':'input100'}))

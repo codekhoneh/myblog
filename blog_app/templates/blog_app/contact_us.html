@@ -235,7 +235,7 @@
                               {% if user.is_authenticated %}
                               <button type="submit" id="form-submit" class="main-button">Send Message</button>
                               {% else %}
-                              <a href="{% url 'account:login' %}?next={{ request.path }}"  class="btn btn-warning">برای ثبت کامنت اول ثبت نام یا لاگین کنید</a>
+                              <a href="{% url 'account:login' %}?next={{ request.path }}"  class="btn btn-warning" style="font-size: 1.3rem;font-weight: bolder;">برای ثبت کامنت اول ثبت نام یا لاگین کنید</a>
 
                               {% endif %}
 

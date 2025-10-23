@@ -18,14 +18,14 @@ class ContactUsForm(forms.ModelForm):
 
    birth_year = forms.ChoiceField(
     choices=BIRTH_YEAR_CHOICES,
-    widget=forms.Select(attrs={'class': 'form-control','style':'font-weight:bold'}),
+    widget=forms.Select(attrs={'class': 'form-control','style':'font-weight:bolder;font-size:0.9rem'}),
     label='سال تولد',
     
 ) 
    intro_method = forms.ChoiceField(
         choices=Message.INTRO_METHOD_CHOICES,
         widget=forms.RadioSelect(attrs={
-            'style': 'transform: scale(0.5); margin: 0 10px 0 0;',
+            'style': 'transform: scale(0.5); margin: 0 10px 0 0;font-weight:bolder;',
         }),
         label='نحوه آشنایی با سایت'
     )
