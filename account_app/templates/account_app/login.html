@@ -29,118 +29,207 @@
 <!--===============================================================================================-->
 </head>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@500&display=swap');
+   body {
+            background: radial-gradient(circle at top, #0d0d1a, #000);
+            font-family: 'Vazirmatn', sans-serif;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        form {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem 2.5rem;
+            border-radius: 18px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+            width: 340px;
+        }
+        .field {
+            margin-bottom: 1.2rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 14px;
+            color: #b6c9ff;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            outline: none;
+            transition: all 0.3s;
+        }
+        input:focus {
+            box-shadow: 0 0 10px #00eaff;
+        }
+        .btn {
+            width: 100%;
+            background: linear-gradient(90deg, #00eaff, #ff00e1);
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            color: #fff;
+            cursor: pointer;
+            transition: 0.4s;
+            font-weight: bold;
+        }
+        .btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 20px #00eaff;
+        }
+
 .error-card {
   position: relative;
+  margin: 28px auto;
   max-width: 700px;
-  margin: 20px auto;
-  padding: 18px 56px 18px 20px;
+  padding: 20px 60px 20px 22px;
+  font-family: 'Vazirmatn', 'IRANYekan', sans-serif;
+  color: #ffffff;
+  background: linear-gradient(135deg, rgba(14, 0, 43, 0.9), rgba(0, 10, 35, 0.85));
+  border: 1px solid rgba(0, 255, 240, 0.3);
   border-radius: 18px;
-  font-family: "Vazirmatn", "IRANYekan", sans-serif;
-  color: #fff;
-  background: rgba(255, 0, 100, 0.08);
-  backdrop-filter: blur(10px) saturate(160%);
-  border: 1px solid rgba(255, 0, 120, 0.3);
-  box-shadow: 0 0 40px rgba(255, 0, 120, 0.2);
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
+  align-items: center;
+  gap: 16px;
+  overflow: hidden;
+  backdrop-filter: blur(12px) saturate(180%);
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.25), 0 0 80px rgba(255, 0, 200, 0.08);
   opacity: 0;
   transform: translateY(-20px) scale(0.95);
-  animation: errorAppear 0.8s cubic-bezier(.2,.9,.3,1.3) forwards;
-  font-weight: bolder;
-  font-size: larger;
+  animation: showError 0.7s cubic-bezier(.2,.9,.3,1.3) forwards;
 }
 
-@keyframes errorAppear {
+/* درخشش زمینه */
+.err-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.25), transparent 70%),
+              radial-gradient(circle at 80% 80%, rgba(255, 0, 200, 0.25), transparent 60%);
+  animation: glowPulse 4s infinite ease-in-out alternate;
+  z-index: 0;
+}
+
+@keyframes glowPulse {
+  0% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+/* آیکون */
+.err-icon {
+  font-size: 30px;
+  z-index: 2;
+  text-shadow: 0 0 20px rgba(0, 255, 255, 0.9), 0 0 30px rgba(255, 0, 180, 0.6);
+  animation: flicker 1.8s infinite alternate;
+}
+
+@keyframes flicker {
+  0% { opacity: 0.7; filter: hue-rotate(0deg); }
+  100% { opacity: 1; filter: hue-rotate(45deg); }
+}
+
+/* متن */
+.err-text {
+  z-index: 2;
+  font-size: 16px;
+  letter-spacing: 0.3px;
+  color: #b8eaff;
+  text-shadow:
+    0 0 8px rgba(0, 255, 255, 0.8),
+    0 0 20px rgba(255, 0, 180, 0.5);
+  animation: textGlow 3s infinite alternate ease-in-out;
+}
+
+@keyframes textGlow {
+  from { text-shadow: 0 0 8px #00f0ff; }
+  to { text-shadow: 0 0 20px #ff00e1; }
+}
+
+/* دکمه بستن */
+.error-close {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  background: linear-gradient(145deg, rgba(0, 255, 255, 0.15), rgba(255, 0, 180, 0.1));
+  border: 1px solid rgba(0, 255, 255, 0.4);
+  color: #fff;
+  font-size: 22px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 3;
+  transition: all 0.35s ease;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+}
+
+.error-close:hover {
+  background: rgba(255, 0, 180, 0.3);
+  transform: rotate(90deg) scale(1.2);
+  box-shadow: 0 0 25px #ff00e1, 0 0 50px rgba(0, 255, 255, 0.6);
+}
+
+/* انیمیشن نمایش */
+@keyframes showError {
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
 }
 
-.err-icon {
-  font-size: 28px;
-  text-shadow: 0 0 12px rgba(255, 80, 180, 0.9);
-  animation: pulseGlow 2s infinite;
-}
-
-@keyframes pulseGlow {
-  0%, 100% { text-shadow: 0 0 8px rgba(255, 100, 200, 0.8); }
-  50% { text-shadow: 0 0 20px rgba(255, 0, 120, 1); }
-}
-
-.err-content strong {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 15px;
-  color: #ffb4d6;
-}
-
-.error-close {
-  position: absolute;
-  left: 12px;
-  top: 12px;
-  background: rgba(255, 255, 255, 0.05);
-  color: #fff;
-  border: none;
-  font-size: 22px;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.error-close:hover {
-  background: rgba(255, 0, 120, 0.3);
-  transform: rotate(90deg) scale(1.1);
-}
-
-@keyframes errorShake {
+/* افکت لرزش */
+@keyframes shake {
   0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-6px); }
-  50% { transform: translateX(6px); }
-  75% { transform: translateX(-3px); }
+  20%, 60% { transform: translateX(-8px); }
+  40%, 80% { transform: translateX(8px); }
 }
+
+
 </style>
 <script>
-class FancyError {
+class NeoError {
   constructor(selector) {
-    this.card = document.querySelector(selector);
-    if (!this.card) return;
-    this.closeBtn = this.card.querySelector(".error-close");
+    this.el = document.querySelector(selector);
+    if (!this.el) return;
+    this.closeBtn = this.el.querySelector('.error-close');
     this.init();
   }
 
   init() {
-    this.addSound();
+    this.playSound();
+    this.flashBorder();
     this.addShake();
-    this.addGlowEffect();
-    this.addCloseButton();
-    this.autoDismiss(10000); // بعد از ۱۰ ثانیه خودش بسته میشه
+    this.enableClose();
+    this.autoDismiss(9000);
   }
 
-  addSound() {
-    // صدای خطا (اختیاری)
-    const audio = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_07b5c1b8b5.mp3?filename=error-126627.mp3");
-    audio.volume = 0.2;
-    audio.play().catch(() => {}); // جلوگیری از خطا در مرورگرهای بی‌صدا
+  playSound() {
+    const audio = new Audio("https://cdn.pixabay.com/download/audio/2023/07/04/audio_028ccf73a4.mp3?filename=alert-143106.mp3");
+    audio.volume = 0.3;
+    audio.play().catch(() => {});
+  }
+
+  flashBorder() {
+    let hue = 0;
+    this.borderLoop = setInterval(() => {
+      hue = (hue + 3) % 360;
+      this.el.style.borderColor = `hsl(${hue}, 100%, 60%)`;
+      this.el.style.boxShadow = `0 0 20px hsl(${hue}, 100%, 55%), 0 0 60px rgba(255, 0, 200, 0.25)`;
+    }, 100);
   }
 
   addShake() {
-    this.card.style.animation = "errorShake 0.4s ease";
-    setTimeout(() => (this.card.style.animation = ""), 400);
+    this.el.style.animation = "shake 0.5s ease";
+    setTimeout(() => (this.el.style.animation = ""), 500);
   }
 
-  addGlowEffect() {
-    let glow = 0;
-    this.glowInterval = setInterval(() => {
-      glow = (glow + 1) % 50;
-      this.card.style.boxShadow = `0 0 ${10 + glow / 2}px rgba(255,0,150,${0.3 + glow / 100})`;
-    }, 50);
-  }
-
-  addCloseButton() {
+  enableClose() {
     this.closeBtn.addEventListener("click", () => this.dismiss());
   }
 
@@ -149,19 +238,18 @@ class FancyError {
   }
 
   dismiss() {
-    clearInterval(this.glowInterval);
+    clearInterval(this.borderLoop);
     clearTimeout(this.timeout);
-    this.card.style.transition = "all 0.8s ease";
-    this.card.style.opacity = "0";
-    this.card.style.transform = "translateY(-20px) scale(0.9)";
-    setTimeout(() => this.card.remove(), 800);
+    this.el.style.transition = "all 0.7s ease";
+    this.el.style.opacity = "0";
+    this.el.style.transform = "translateY(-20px) scale(0.9)";
+    setTimeout(() => this.el.remove(), 700);
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  new FancyError("#form-error");
-});
+document.addEventListener("DOMContentLoaded", () => new NeoError("#form-error"));
 </script>
+
 
 <body>
 	

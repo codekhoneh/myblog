@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from .forms import LoginForm
+from .forms import RegisterForm
 def user_login(request):
     next_url = request.POST.get('next')
     if request.user.is_authenticated == True:
@@ -24,23 +25,24 @@ def user_logout(request):
     return redirect('/')
 
 def user_register(request):
-    context = {'errors': []}
+    next_url = request.POST.get('next')
     if request.user.is_authenticated:
-        return redirect('/')
-    elif request.method == 'POST':
-        username = request.POST.get('username', '').strip()
-        email = request.POST.get('email', '').strip()
-        password = request.POST.get('password', '').strip()
-        password2 = request.POST.get('password2', '').strip()
-        if password != password2 or User.objects.filter(username=username).exists():
-            context['errors'].append('Passwords do not match or username already exists.')
-        if User.objects.filter(email=email).exists():
-            context['errors'].append('Email already exists.')
-        if not context['errors']:
-            user = User.objects.create_user(username=username, password=password, email=email)
-            login(request, user)
-            next_url = request.POST.get('next')
+        return redirect(next_url if next_url else '/')
+
+    if request.method == 'POST':
+        myforms = RegisterForm(request.POST)
+        if myforms.is_valid():
+            user2 = User.objects.create_user(
+                username=myforms.cleaned_data.get('username'),
+                password=myforms.cleaned_data.get('password'),  # ⚡ اصلاح شد
+                email=myforms.cleaned_data.get('email')
+            )
+            login(request, user2)
             return redirect(next_url if next_url else '/')
- 
-    return render(request, 'account_app/register.html', context={})
+        # اگر فرم معتبر نبود، همان فرم با ارورها به template برمی‌گردد
+    else:
+        myforms = RegisterForm()  # ⚡ فرم خالی برای GET
+
+    return render(request, 'account_app/register.html', {'myforms': myforms})
+
 # Create your views here.
