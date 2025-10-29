@@ -33,7 +33,7 @@
                     </div>
                     <div class="content">
                       <ul dir="rtl">
-                        {% for c in cati %}
+                       {% for c in cati %}
                         <li><a href="{% url 'blog:categor_detail' c.id %}">- {{c.title}}</a></li>
                         {% endfor %}
                       </ul>

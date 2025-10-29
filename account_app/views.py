@@ -4,7 +4,10 @@ from django.contrib.auth.models import User
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from .forms import LoginForm
-from .forms import RegisterForm
+from .forms import RegisterForm , UserEditForm
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+
 def user_login(request):
     next_url = request.POST.get('next')
     if request.user.is_authenticated == True:
@@ -44,5 +47,19 @@ def user_register(request):
         myforms = RegisterForm()  # ⚡ فرم خالی برای GET
 
     return render(request, 'account_app/register.html', {'myforms': myforms})
+def user_edit(request):
+    user=request.user
+    if request.method == 'POST':
+        form3 = UserEditForm(request.POST , instance=user)
+        if form3.is_valid():
+            form3.save()
+            messages.success(request, 'اطلاعات شما با موفقیت ذخیره شد ✅🚀😎')
+            return redirect('home:main')
+  
+    else:
+        form3 = UserEditForm(instance=user)
+    return render(request , 'account_app/edit.html',{'myform3':form3})
+
+            
 
 # Create your views here.

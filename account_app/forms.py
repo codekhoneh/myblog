@@ -39,3 +39,7 @@ class RegisterForm(forms.Form):
             if User.objects.filter(email=email).exists():
                 raise ValidationError ('Email already exists.' , code='invalid_email')
             return email
+class UserEditForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('username' , 'first_name' , 'last_name' , 'email')
