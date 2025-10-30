@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}ویرایش پروفایل{% endblock %}
+
+{% block content %}
+<div class="container" dir="rtl">
+  <div class="row mt-5 justify-content-center">
+    <div class="col-12 col-lg-10">
+      <!-- Page header -->
+      <div class="d-flex align-items-center mb-4">
+        <div>
+          <h2 class="mb-0">ویرایش پروفایل</h2>
+          <p class="text-muted mb-0">اطلاعات حساب کاربری خود را در اینجا به‌روزرسانی کنید.</p>
+        </div>
+      </div>
+
+      <!-- Card -->
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <form method="post" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+            <div class="row">
+            <!-- Left: Avatar / info -->
+
+
+            <!-- Right: Form -->
+            <div class="col-12 col-md-8">
+
+                {% if myform.non_field_errors %}
+                  <div class="alert alert-danger">{{ myform.non_field_errors }}</div>
+                {% endif %}
+
+                <div class="row">
+                  <div class="col-12 mb-3">
+                    <label class="form-label">{{ myform.username.label }}</label>
+                    {{ myform.username }}
+                    {% if myform.username.errors %}
+                      <div class="text-danger small">{{ myform.username.errors }}</div>
+                    {% endif %}
+                  </div>
+
+                  <div class="col-12 col-md-6 mb-3">
+                    <label class="form-label">{{ myform.first_name.label }}</label>
+                    {{ myform.first_name }}
+                    {% if myform.first_name.errors %}
+                      <div class="text-danger small">{{ myform.first_name.errors }}</div>
+                    {% endif %}
+                  </div>
+
+                  <div class="col-12 col-md-6 mb-3">
+                    <label class="form-label">{{ myform.last_name.label }}</label>
+                    {{ myform.last_name }}
+                    {% if myform.last_name.errors %}
+                      <div class="text-danger small">{{ myform.last_name.errors }}</div>
+                    {% endif %}
+                  </div>
+                  
+                  <div class="col-12 mb-3">
+                    <label class="form-label">{{ myform.email.label }}</label>
+                    {{ myform.email }}
+                    {% if myform.email.errors %}
+                      <div class="text-danger small">{{ myform.email.errors }}</div>
+                    {% endif %}
+                  </div>
+
+                </div>
+
+                <div class="d-flex gap-2">
+                  <button type="submit" class="btn btn-primary">ذخیره تغییرات</button>
+                  <a href="{% url 'home:main' %}" class="btn btn-outline-secondary">لغو</a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -19,9 +19,11 @@
               <li class="nav-item {% if request.resolver_match.url_name == 'articles_list' %} active {% endif %}">
                 <a class="nav-link" href="{% url 'blog:articles_list' %}">all artikle</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="post-details.html">Post Details</a>
-              </li>
+              {% if request.user.is_authenticated %} 
+                <li class="nav-item {% if request.resolver_match.url_name == 'edit' %} active {% endif %}"> 
+                  <a class="nav-link" href="{% url 'account:edit' %}">Edit profile </a> 
+                </li> 
+              {% endif %}   
               <li class="nav-item {% if request.resolver_match.url_name == 'contact_us' %} active {% endif %}">
                 <a class="nav-link" href="{% url 'blog:contact_us' %}">Contact Us</a>
               </li>
