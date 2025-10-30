@@ -54,7 +54,7 @@ def allarticle_list(request):
 def category_detail(request,pk=None):
     categor=get_object_or_404(category,id=pk)
     arti=categor.artikle_set.all()
-    return render(request,'blog_app/all_artikle_list.html',{'articli':arti})
+    return render(request,'blog_app/all_artikle_list.html',{'page_obj':arti})
 
 # def search (request):
 #     q=request.GET.get('q')

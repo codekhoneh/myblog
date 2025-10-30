@@ -45,24 +45,20 @@ def user_register(request):
 
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import UserEditForm, ProfileForm
-from .models import profile as ProfileModel
-
+from .forms import UserEditForm
+from contactus_app.models import footer
 
 @login_required
 def user_edit(request):
     user = request.user
-    profile_obj, created = ProfileModel.objects.get_or_create(myuser=user)
+    footers = footer.objects.last()
 
     if request.method == 'POST':
         user_form = UserEditForm(instance=user, data=request.POST)
-        profile_form = ProfileForm(instance=profile_obj, data=request.POST, files=request.FILES)
 
-        if user_form.is_valid() and profile_form.is_valid():
+        if user_form.is_valid():
             user_form.save()
-            profile = profile_form.save(commit=False)
-            profile.myuser = user
-            profile.save()
+            
             messages.success(request, 'اطلاعات شما با موفقیت ثبت شد')
             return redirect('home:main')
         else:
@@ -70,6 +66,6 @@ def user_edit(request):
             pass
     else:
         user_form = UserEditForm(instance=user)
-        profile_form = ProfileForm(instance=profile_obj)
 
-    return render(request, 'account_app/edit.html', {'myform': user_form, 'pform': profile_form, 'user': user})
+
+    return render(request, 'account_app/edit.html', {'myform': user_form,'user': user,'footers':footers})

@@ -53,13 +53,3 @@ class UserEditForm(forms.ModelForm):
         model = User 
         fields = ('username', 'first_name', 'last_name', 'email')
 
-from .models import profile as ProfileModel
-
-class ProfileForm(forms.ModelForm):
-    class Meta:
-        model = ProfileModel
-        fields = ('family', 'nationalcode', 'image')
-        widgets = {
-            'family': forms.TextInput(attrs={'class': 'form-control'}),
-            'nationalcode': forms.TextInput(attrs={'class': 'form-control'}),
-        }
