@@ -1,0 +1,11 @@
+<div class="content">
+	<ul>
+		{% if objects %}
+			{% for obj in objects %}
+				<li>{{ obj }}</li>
+			{% endfor %}
+		{% else %}
+			<li>No items</li>
+		{% endif %}
+	</ul>
+</div>
