@@ -1,3 +1,4 @@
+{% load my_templatetags %}
 <div class="col-lg-4">
             <div class="sidebar">
               <div class="row">
@@ -15,13 +16,7 @@
                     </div>
                     <div class="content">
                       <ul>
-                        {% for j in recent_art %}
-                        <li><a href="post-details.html">
-                          <a href="{{j.get_absolute_url}}" class="nav-link"><h4>{{j.title}}</h4></a>
-                          <span>seen : {{j.views}}</span>
-                        </a></li>
-                        {% endfor %}
-                        
+                         {% show_result recent_art %} 
                       </ul>
                     </div>
                   </div>
