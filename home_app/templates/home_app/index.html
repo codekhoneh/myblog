@@ -1,4 +1,7 @@
 {% extends 'base.html' %}
+{% load filters %}
+{% load my_templatetags %}
+
 {% load render_partial %}
 {% load static %}
 
@@ -22,7 +25,7 @@
                   {% endfor %}
                 </div>
                 <a class="nav-link" href="{{i.get_absolute_url}}">{{i.title}}</a>
-                <a href="post-details.html"><h4>{{i.body}}</h4></a>
+                <a href="post-details.html"><h4>{{i.body | mytruncate:60}}</h4></a>
                 <ul class="post-info">
                   <li><a href="#">{{i.author.username}}</a></li>
                   <li><a href="#">{{i.created}}</a></li>
@@ -47,8 +50,8 @@
             <div class="main-content">
               <div class="row">
                 <div class="col-lg-8">
-                  <span>Stand Blog HTML5 Template</span>
-                  <h4>Creative HTML Template For Bloggers!</h4>
+                  <span>{% current_time "%Y/%m/%d" %} </span>
+                  <h4>{% show_result "my weblog for amir" %}</h4> 
                 </div>
                 <div class="col-lg-4">
                   <div class="main-button">
