@@ -11,3 +11,14 @@ def show_result(value):
     {% show_result some_variable %}.
     """
     return value
+
+
+@register.inclusion_tag('home_app/result.html', takes_context=True)
+def render_results(context):
+    """Inclusion tag that renders `result.html` with recent articles.
+
+    It looks for `recent_art` in the current template context and passes it
+    into the inclusion template as `objects`.
+    """
+    recent = context.get('recent_art')
+    return {'objects': recent}

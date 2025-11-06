@@ -1,0 +1,11 @@
+<div class="content">
+  <ul>
+    {% if objects %}
+      {% for obj in objects %}
+        <li><a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a></li>
+      {% endfor %}
+    {% else %}
+      <li>No items</li>
+    {% endif %}
+  </ul>
+</div>
